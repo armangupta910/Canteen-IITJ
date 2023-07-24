@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardformenu"
+        android:layout_marginBottom="5dp"
+
+        app:cardElevation="10dp"
+        android:background="@drawable/backfornotavail"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"
+        app:cardCornerRadius="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+
+                android:scaleType="centerCrop"
+                android:fitsSystemWindows="true"
+                android:id="@+id/food_item_image"
+
+                android:layout_marginLeft="20dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_person_24" />
+
+            <LinearLayout
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:singleLine="true"
+                    android:fitsSystemWindows="true"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/name_of_food_item"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name of Item"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:id="@+id/price_of_food_item"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Price of Item"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:id="@+id/ratings_of_food_item"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rating of Item"
+                    android:textSize="12dp"
+                    android:maxLines="1"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:id="@+id/starred"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/afterfavourite"
+                    android:layout_marginBottom="10dp"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/starblack"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/beforefavourite" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/add_to_cart_button"
+                    android:layout_width="90dp"
+                    android:textSize="10dp"
+                    android:layout_height="30dp"
+                    android:text="  Add to cart  "
+                    android:background="@drawable/backforbutton"
+                    android:layout_gravity="center"/>
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".admin_category"
+    android:background="@color/light_yellow"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <Button
+        android:id="@+id/avail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Available"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.247"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/backforbutton"/>
+
+    <Button
+        android:id="@+id/unavail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  Unavailable  "
+        android:background="@drawable/backforbutton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintVertical_bias="0.081"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:background="@drawable/backforbutton"
+        android:id="@+id/orders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Orders"
+         />
+    <Button
+        android:layout_marginTop="10dp"
+        android:background="@drawable/backforbutton"
+        android:id="@+id/show_old_orders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Old Orders"
+        />
+</LinearLayout>

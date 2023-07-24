@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:visibility="visible"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/cardid"
+        app:cardElevation="10dp"
+        android:background="@drawable/backforcardandimage"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"
+        app:cardCornerRadius="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+
+                android:scaleType="centerCrop"
+                android:fitsSystemWindows="true"
+                android:id="@+id/food_item_image1"
+
+                android:layout_marginLeft="20dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_person_24" />
+
+            <LinearLayout
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:maxLines="1"
+                    android:layout_gravity="center"
+                    android:textColor="@color/black"
+                    android:singleLine="true"
+                    android:fitsSystemWindows="true"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/name_of_food_item1"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name of Item"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:textColor="@color/black"
+                    android:id="@+id/price_of_food_item1"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Price of Item"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:id="@+id/ratings_of_food_item1"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rating of Item"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/red"
+                    android:visibility="gone"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/afterfavourite"
+                    android:layout_marginBottom="10dp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/black"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/beforefavourite"
+                    android:layout_marginBottom="10dp"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/notavbutt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="Not Available"
+                    android:textSize="10dp"
+                    android:paddingLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:visibility="gone"
+                    android:background="@drawable/backfrobuttonnotavail"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                    <Button
+                        android:id="@+id/minus"
+                        android:textStyle="bold"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:text="-"
+
+                        android:gravity="center"
+                        android:background="@drawable/plusbutton"/>
+                    <TextView
+                        android:id="@+id/qunatity"
+                        android:background="@color/black"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textSize="10dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"/>
+                    <Button
+                        android:id="@+id/plus"
+                        android:textStyle="bold"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:text="+"
+                        android:background="@drawable/minusbutton"/>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <ProgressBar
+        android:layout_marginBottom="700dp"
+        android:layout_marginTop="50dp"
+        android:indeterminateTint="@color/black"
+        android:visibility="visible"
+        android:id="@+id/progo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/cardid"
+        app:layout_constraintStart_toStartOf="@+id/cardid"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
