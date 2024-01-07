@@ -29,7 +29,7 @@ class Sign_in : AppCompatActivity() {
         val button:Button=findViewById(R.id.signinbutton)
         val progi:ProgressBar=findViewById(R.id.progi)
 
-        var token=getSharedPreferences("status", Context.MODE_PRIVATE)
+        var token=getSharedPreferences("demo", Context.MODE_PRIVATE)
         button.setOnClickListener {
             button.visibility=View.GONE
             progi.visibility=View.VISIBLE
@@ -45,7 +45,7 @@ class Sign_in : AppCompatActivity() {
                     if(it.isSuccessful){
                         Toast.makeText(this,"Sign in Successfull",Toast.LENGTH_SHORT).show()
                         var editor=token.edit()
-                        editor.putBoolean("status",true)
+                        editor.putString("user","1")
                         editor.commit()
                         startActivity(Intent(this,MainActivity::class.java))
                         finish()

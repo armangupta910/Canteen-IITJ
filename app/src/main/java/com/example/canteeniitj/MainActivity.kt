@@ -1,6 +1,7 @@
 package com.example.canteeniitj
 
-import android.annotation.SuppressLint
+import  android.annotation.SuppressLint
+import android.app.ApplicationErrorReport.CrashInfo
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.ContentValues.TAG
@@ -13,39 +14,149 @@ import android.os.Bundle
 import android.os.Handler
 import android.provider.ContactsContract.Profile
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.SearchView.OnQueryTextListener
+import androidx.appcompat.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
+import com.example.canteeniitj.fragments.viewpager_adaptor
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import org.w3c.dom.Text
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
-
+    private lateinit var data:HashMap<String,Map<String,String>>
+    var tempdata:HashMap<String,Map<String,String>> = hashMapOf()
+    var temparray:MutableList<String> = mutableListOf()
+    private lateinit var search10:SearchView
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(toggle.onOptionsItemSelected(item)){
             return true
         }
         return super.onOptionsItemSelected(item)
     }
+
+    override fun onBackPressed() {
+        if(search10.isIconified==false){
+            temparray.clear()
+            for(i in 1..106){
+                temparray.add(i.toString())
+            }
+//            findViewById<RecyclerView>(R.id.recycler_for_menu_items).adapter!!.notifyDataSetChanged()
+            search10.isIconified=true
+        }
+        else{
+            super.onBackPressed()
+        }
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.search_bar,menu)
+        val item=menu?.findItem(R.id.search_bar1)
+        supportActionBar?.subtitle="IIT Jodhpur"
+
+        search10 = item!!.actionView as SearchView
+        search10.setOnCloseListener {
+            temparray.clear()
+            tempdata.clear()
+            tempdata.putAll(data)
+            for(i in 1..106){
+                temparray.add(i.toString())
+            }
+//            findViewById<RecyclerView>(R.id.recycler_for_menu_items).adapter!!.notifyDataSetChanged()
+//            search10.isIconified=true
+            return@setOnCloseListener false
+        }
+        search10.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(newText: String?): Boolean {
+                tempdata.clear()
+                temparray.clear()
+                if(newText!=""){
+                    var hihu=newText!!.lowercase()
+                    for(i in data){
+                        if(i.value.get("Name")?.lowercase()?.contains(hihu) == true){
+                            tempdata.put(i.key,i.value)
+                            temparray.add(i.key)
+                        }
+                    }
+//                    findViewById<RecyclerView>(R.id.recycler_for_menu_items).adapter!!.notifyDataSetChanged()
+                    Log.d(TAG,"tempdata => ${tempdata}")
+                    Log.d(TAG,"temparray => ${temparray}")
+                }
+                else{
+                    temparray.clear()
+                    tempdata.clear()
+                    tempdata.putAll(data)
+                    for(i in 1..106){
+                        temparray.add(i.toString())
+                    }
+//                    findViewById<RecyclerView>(R.id.recycler_for_menu_items).adapter!!.notifyDataSetChanged()
+                }
+                return true
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onQueryTextChange(newText: String?): Boolean {
+//                tempdata.clear()
+//                temparray.clear()
+//
+//                if(newText!=""){
+//                    var hihu=newText!!.lowercase()
+//                    for(i in data){
+//                        if(i.value.get("Name")?.lowercase()?.contains(hihu) == true){
+//                            tempdata.put(i.key,i.value)
+//                            temparray.add(i.key)
+//                        }
+//                    }
+//                    findViewById<RecyclerView>(R.id.recycler_for_menu_items).adapter!!.notifyDataSetChanged()
+//                    Log.d(TAG,"tempdata => ${tempdata}")
+//                    Log.d(TAG,"temparray => ${temparray}")
+//                }
+//                else{
+//                    temparray.clear()
+//                    tempdata.clear()
+//                    tempdata.putAll(data)
+//                    for(i in 1..106){
+//                        temparray.add(i.toString())
+//                    }
+//                    findViewById<RecyclerView>(R.id.recycler_for_menu_items).adapter!!.notifyDataSetChanged()
+//
+//                }
+                return true
+
+            }
+
+        })
+        return super.onCreateOptionsMenu(menu)
+    }
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         //Drawer Layout
 
         val dialog = Dialog(this)
@@ -56,8 +167,9 @@ class MainActivity : AppCompatActivity() {
         anim.visibility=View.VISIBLE
         dialog.findViewById<ProgressBar>(R.id.progiii).visibility=View.GONE
         dialog.show()
-        Handler().postDelayed({dialog.hide()
-            findViewById<RecyclerView>(R.id.recycler_for_menu_items).alpha= 1F},2500)
+        Handler().postDelayed({dialog.hide()}
+//            findViewById<RecyclerView>(R.id.recycler_for_menu_items).alpha= 1F}
+            ,2500)
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navview : NavigationView = findViewById(R.id.nav_view)
         val headerVire=navview.getHeaderView(0)
@@ -74,14 +186,12 @@ class MainActivity : AppCompatActivity() {
             else{
                 Glide.with(this).load(it.data!!.get("URL")).into(findViewById(R.id.prof_image))
             }
-
         }
         toggle=ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         navview.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.Profile -> startActivity(Intent(this, profile::class.java))
@@ -124,9 +234,9 @@ class MainActivity : AppCompatActivity() {
 
 
                 R.id.log_out->{
-                    var token=getSharedPreferences("status", Context.MODE_PRIVATE)
+                    var token=getSharedPreferences("demo", Context.MODE_PRIVATE)
                     var editor=token.edit()
-                    editor.putBoolean("status",false)
+                    editor.putString("user","0")
                     editor.commit()
                     val dialog = Dialog(this)
                     dialog.setContentView(R.layout.dialog)
@@ -185,7 +295,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> {
                     Toast.makeText(this,"Profile Clicked",Toast.LENGTH_SHORT).show()
-
                 }
             }
             true
@@ -193,9 +302,6 @@ class MainActivity : AppCompatActivity() {
         //Drawer Layout
 
         //Getting Menu Data
-
-
-        var data:HashMap<String,Map<String,String>> = hashMapOf()
         data= hashMapOf(
             "1" to mapOf<String,String>(
                 "Name" to "Tea",
@@ -833,17 +939,45 @@ class MainActivity : AppCompatActivity() {
                 "URL" to "https://firebasestorage.googleapis.com/v0/b/canteen-iitj.appspot.com/o/menu_images%2Fitem4.jpg?alt=media&token=ce7ba5bb-2019-4866-803b-26dc1da45e4f"
             )
         )
-        val x=findViewById<RecyclerView>(R.id.recycler_for_menu_items)
-        val y=adaptor(this,data)
-        x.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-        x.adapter=y
 
+        for(i in 1..106){
+            temparray.add(i.toString())
+        }
+        tempdata.putAll(data)
+//        val x=findViewById<RecyclerView>(R.id.recycler_for_menu_items)
+//        val y=adaptor(this,temparray,data)
+//        x.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+//        x.adapter=y
+//
+//        val swipe=findViewById<SwipeRefreshLayout>(R.id.swipe_refresh)
+//        swipe.setOnRefreshListener{
+//            y.notifyDataSetChanged()
+//            Handler().postDelayed({
+//                swipe.isRefreshing=false
+//            },
+//                1000
+//            )
+//
+//        }
 
+        val x=findViewById<TabLayout>(R.id.tab_layout)
+        val y=findViewById<ViewPager2>(R.id.viewpager)
+        val adap=viewpager_adaptor(supportFragmentManager,lifecycle)
 
-
-
+        y.adapter=adap
+        TabLayoutMediator(x,y){x,position->
+            when(position){
+                0->{
+                    x.text="First"
+                }
+                1->x.text="second"
+                2->x.text="third"
+            }
+        }.attach()
 
     }
+
+
 
 
 

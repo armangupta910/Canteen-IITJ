@@ -1,29 +1,43 @@
-package com.example.canteeniitj
+package com.example.canteeniitj.fragments
 
-import android.content.ContentValues.TAG
-import androidx.appcompat.app.AppCompatActivity
+import android.content.ContentValues
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.widget.Adapter
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.canteeniitj.R
+import com.example.canteeniitj.fragment_adaptor
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import io.grpc.Context
 
-class admin_orders : AppCompatActivity() {
+class first() : Fragment() {
 
-    var x:MutableList<String> = mutableListOf()
-    var y:Map<String,HashMap<String,Int>> = mapOf()
-    var abc:adaptor_for_admin_orders? = null
+    var search10: SearchView? = activity?.let { SearchView(it) }
+    val list:MutableList<String> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_admin_orders)
 
+    }
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        val demo=inflater.inflate(R.layout.fragment_first, container, false)
+
+        val db=Firebase.firestore
         var data:HashMap<String,Map<String,String>> = hashMapOf()
+
         data= hashMapOf(
             "1" to mapOf<String,String>(
                 "Name" to "Tea",
@@ -661,45 +675,94 @@ class admin_orders : AppCompatActivity() {
                 "URL" to "https://firebasestorage.googleapis.com/v0/b/canteen-iitj.appspot.com/o/menu_images%2Fitem4.jpg?alt=media&token=ce7ba5bb-2019-4866-803b-26dc1da45e4f"
             )
         )
-//        var x:MutableList<String> = mutableListOf()
-//        var y:Map<String,HashMap<String,Int>>
-        Firebase.firestore.collection("orders").document("orders").get().addOnSuccessListener {
-            y=it.data?.get("orders") as Map<String, HashMap<String, Int>>
-            y=y.toSortedMap(reverseOrder())
-            for(i in y){
-                x.add(i.key)
-            }
-            Log.d(TAG,"List => ${x}")
-            Log.d(TAG,"Full Data => ${y}")
-            val z=findViewById<RecyclerView>(R.id.recycler_for_orders_admin)
-            abc=adaptor_for_admin_orders(this,x,y,data,"0")
-            Log.d(TAG,"x => ${x}")
-            Log.d(TAG,"y => ${y}")
-            z.layoutManager= LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
-            z.adapter=abc
-        }
-
-        val swipe=findViewById<SwipeRefreshLayout>(R.id.swipe_refresh)
-        swipe.setOnRefreshListener{
-            x.clear()
-            Firebase.firestore.collection("orders").document("orders").get().addOnSuccessListener {
-                y=it.data?.get("orders") as Map<String, HashMap<String, Int>>
-                y=y.toSortedMap(reverseOrder())
-                for(i in y){
-                    x.add(i.key.toString())
+        var y: fragment_adaptor? = null
+        db.collection("Menu_Items").get().addOnSuccessListener {
+            for(i in it){
+                if (i.data.get("Category")=="1"){
+                    list.add(i.id)
                 }
-                Log.d(TAG,"newx => ${x}")
-                Log.d(TAG,"newy => ${y}")
-                abc!!.notifyDataSetChanged()
             }
-            Handler().postDelayed({
-                swipe.isRefreshing=false
-            },
-                1000
-            )
 
+            val x=demo.findViewById<RecyclerView>(R.id.recycler_fragment1)
+            y= activity?.let { it1 -> fragment_adaptor(it1,list,data) }!!
+            x.layoutManager= LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
+            x.adapter=y
+
+            demo.findViewById<SwipeRefreshLayout>(R.id.swipe1).setOnRefreshListener {
+                y?.notifyDataSetChanged()
+                Handler().postDelayed({
+                    demo.findViewById<SwipeRefreshLayout>(R.id.swipe1).isRefreshing=false
+                },1200)
+            }
         }
 
+        search10 = demo.findViewById<SearchView>(R.id.search_view1) as SearchView
+        search10!!.setOnCloseListener {
+            list.clear()
+            db.collection("Menu_Items").get().addOnSuccessListener {
+                for (i in it) {
+                    if (i.data.get("Category") == "1") {
+                        list.add(i.id)
+                    }
+                }
+                y!!.notifyDataSetChanged()
+            }
+            return@setOnCloseListener false
+        }
 
+        search10!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(newText: String?): Boolean {
+                list.clear()
+                var haha: MutableList<String> = mutableListOf()
+                if (newText != "") {
+                    var hihu = newText!!.lowercase()
+                    db.collection("Menu_Items").get().addOnSuccessListener {
+                        for (i in it) {
+                            if (i.data.get("Category") == "1") {
+                                haha.add(i.id)
+                            }
+                        }
+                        val seti:MutableList<String> = mutableListOf()
+                        Log.d(ContentValues.TAG,"haha => ${haha}")
+                        for (i in haha) {
+                            if (data.get(i)!!.get("Name")!!.lowercase().contains(hihu) == true) {
+                                seti.add(i)
+                            }
+                        }
+                        for(i in seti){
+                            if(list.contains(i)==false){
+                                list.add(i)
+                            }
+                        }
+                        Log.d(ContentValues.TAG,"list => ${list}")
+                        y!!.notifyDataSetChanged()
+                    }
+
+                } else {
+                    list.clear()
+                    db.collection("Menu_Items").get().addOnSuccessListener {
+                        for (i in it) {
+                            if (i.data.get("Category") == "1") {
+                                list.add(i.id)
+                            }
+                        }
+                        y!!.notifyDataSetChanged()
+                    }
+
+//                    findViewById<RecyclerView>(R.id.recycler_for_menu_items).adapter!!.notifyDataSetChanged()
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+
+
+        })
+
+        return demo
     }
+
+
 }

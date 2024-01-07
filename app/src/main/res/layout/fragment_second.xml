@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.second"
+    android:orientation="vertical"
+    android:gravity="center">
+    <androidx.appcompat.widget.SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/backforsearchbar"
+        android:id="@+id/search_view"
+        android:outlineProvider="background"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        />
+    <ProgressBar
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:indeterminateTint="@color/black"
+        android:id="@+id/progress_2"
+        android:fitsSystemWindows="true"
+        />
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/swipe2">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:scrollbarSize="5dp"
+        android:scrollbars="vertical"
+        android:alpha="1"
+        android:id="@+id/recycler_fragment2"
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        tools:listitem="@layout/cardforitems"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+</LinearLayout>

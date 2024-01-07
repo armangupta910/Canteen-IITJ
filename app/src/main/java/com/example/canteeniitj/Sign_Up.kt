@@ -20,7 +20,7 @@ class Sign_Up : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
         supportActionBar?.hide()
-        var token=getSharedPreferences("status",Context.MODE_PRIVATE)
+        var token=getSharedPreferences("demo",Context.MODE_PRIVATE)
         firebaseAuth= FirebaseAuth.getInstance()
         findViewById<TextView>(R.id.signuptosignintext).setOnClickListener {
             startActivity(Intent(this,Sign_in::class.java))
@@ -50,7 +50,7 @@ class Sign_Up : AppCompatActivity() {
                         Toast.makeText(this,"Account Created",Toast.LENGTH_SHORT).show()
                         var editor=token.edit()
                         val db=Firebase.firestore
-                        editor.putBoolean("status",true)
+                        editor.putString("user","1")
                         editor.commit()
                         val carti:MutableList<Int> = mutableListOf()
                         val cart:HashMap<String,Int> = hashMapOf(

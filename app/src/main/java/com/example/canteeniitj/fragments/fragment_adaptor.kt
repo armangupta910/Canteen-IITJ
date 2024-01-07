@@ -1,7 +1,6 @@
 package com.example.canteeniitj
 
 import android.animation.Animator
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.ContentValues.TAG
 import android.content.Context
@@ -26,7 +25,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import io.grpc.okhttp.internal.framed.FrameReader
 import java.util.logging.Handler
 
-class adaptor(val conti:Context, var temparray:MutableList<String>,var data:HashMap<String,Map<String,String>>):RecyclerView.Adapter<adaptor.view_holder>() {
+class fragment_adaptor(val conti:Context,val list:MutableList<String>, var data:HashMap<String,Map<String,String>>):RecyclerView.Adapter<fragment_adaptor.view_holder>() {
 
     class view_holder(itemview:View):RecyclerView.ViewHolder(itemview){
         var x:TextView=itemview.findViewById(R.id.name_of_food_item)
@@ -37,7 +36,6 @@ class adaptor(val conti:Context, var temparray:MutableList<String>,var data:Hash
         var blackstar:ImageView=itemview.findViewById(R.id.starblack)
         var redstar:ImageView=itemview.findViewById(R.id.starred)
         var cardi:CardView=itemview.findViewById(R.id.cardformenu)
-
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): view_holder {
         var itemview:View=LayoutInflater.from(parent.context).inflate(R.layout.cardforitems,parent,false)
@@ -45,14 +43,13 @@ class adaptor(val conti:Context, var temparray:MutableList<String>,var data:Hash
     }
 
     override fun getItemCount(): Int {
-        return temparray.size
+        return list.size
     }
 
-    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: view_holder, position: Int) {
-
+        holder.cardi.alpha=1F
         val db=Firebase.firestore
-        db.collection("Menu_Items").document(temparray.get(position)).get().addOnSuccessListener {
+        db.collection("Menu_Items").document(list.get(position)).get().addOnSuccessListener {
             Log.d(TAG,"${it.data}")
             if(it.data?.get("Availabilty")=="0"){
                 holder.cardi.setBackgroundResource(R.drawable.backfornotavail)
@@ -70,18 +67,18 @@ class adaptor(val conti:Context, var temparray:MutableList<String>,var data:Hash
                 holder.cart.setBackgroundResource(R.drawable.backforbutton)
             }
         }
-        holder.x.text=data[temparray.get(position)]?.get("Name")
-        holder.y.text="Price - Rs."+data[temparray.get(position)]?.get("Price")
-        holder.z.text="Rating - "+data[temparray.get(position)]?.get("Ratings")
+        holder.x.text=data[list.get(position)]?.get("Name")
+        holder.y.text="Price - Rs."+data[list.get(position)]?.get("Price")
+        holder.z.text="Rating - "+data[list.get(position)]?.get("Ratings")
         holder.image.setImageResource(R.drawable.baseline_person_24)
 //        image_url[position]?.let { holder.image.setImageResource(it) }
-        Glide.with(conti).load(data[temparray.get(position)]?.get("URL")).into(holder.image)
+        Glide.with(conti).load(data[list.get(position)]?.get("URL")).into(holder.image)
         val db1=Firebase.firestore
         var x=0
         db1.collection("Users").document(FirebaseAuth.getInstance().getCurrentUser()?.getUid().toString()).get().addOnSuccessListener {
             var favi:HashMap<String,Int> =  it.data?.get("fav") as HashMap<String, Int>
             Log.d(TAG,"${favi}")
-            x= favi.get(temparray.get(position))!!
+            x= favi.get(list.get(position))!!
             if(x==1){
                 holder.blackstar.visibility=View.GONE
                 holder.redstar.visibility=View.VISIBLE
@@ -107,19 +104,19 @@ class adaptor(val conti:Context, var temparray:MutableList<String>,var data:Hash
                 var listi = it.data?.get("cart") as MutableList<Int>
                 var k=0
                 for(x in listi){
-                    if(x==temparray.get(position).toInt()){
+                    if(x==list.get(position).toInt()){
                         k=1
                     }
                 }
                 if(k==0){
-                    listi.add(temparray.get(position).toInt())
+                    listi.add(list.get(position).toInt())
                 }
                 db.collection("Users").document(FirebaseAuth.getInstance().getCurrentUser()?.getUid().toString()).update("cart",listi).addOnSuccessListener {
                     Toast.makeText(conti,"List Updated",Toast.LENGTH_SHORT).show()
                 }
                 var carti: HashMap<String,Int> = it.data?.get("carts") as HashMap<String, Int>
-                if(carti[temparray.get(position)]!=null){
-                    carti[temparray.get(position)]= carti[temparray.get(position)]!! + 1
+                if(carti[list.get(position)]!=null){
+                    carti[list.get(position)]= carti[list.get(position)]!! + 1
                 }
 
                 db.collection("Users").document(FirebaseAuth.getInstance().getCurrentUser()?.getUid().toString()).update("carts",carti).addOnSuccessListener {
@@ -170,13 +167,13 @@ class adaptor(val conti:Context, var temparray:MutableList<String>,var data:Hash
                 holder.blackstar.visibility=View.VISIBLE
                 demo1=it.data?.get("favs") as MutableList<Int>
                 for(i in demo1){
-                    if(i!=temparray.get(position).toInt()) {
+                    if(i!=list.get(position).toInt()) {
                         newdemo1.add(i)
                     }
                 }
                 db1.collection("Users").document(FirebaseAuth.getInstance().getCurrentUser()?.getUid().toString()).update("favs",newdemo1)
                 demo=it.data?.get("fav") as HashMap<String, Int>
-                demo[temparray.get(position)] = demo[temparray.get(position)]!!-1
+                demo[list.get(position)] = demo[list.get(position)]!!-1
                 db1.collection("Users").document(FirebaseAuth.getInstance().getCurrentUser()?.getUid().toString()).update("fav",demo).addOnSuccessListener {
                     holder.cardi.alpha=1F
                     dialog.hide()
@@ -226,18 +223,18 @@ class adaptor(val conti:Context, var temparray:MutableList<String>,var data:Hash
                 holder.blackstar.visibility=View.GONE
                 var x=0
                 for(i in demo1){
-                    if(i==temparray.get(position).toInt()){
+                    if(i==list.get(position).toInt()){
                         x=1
                     }
                 }
                 if(x==0){
-                    demo1.add(temparray.get(position).toInt())
+                    demo1.add(list.get(position).toInt())
                 }
 
                 db1.collection("Users").document(FirebaseAuth.getInstance().getCurrentUser()?.getUid().toString()).update("favs",demo1)
 
                 demo=it.data?.get("fav") as HashMap<String, Int>
-                demo[temparray.get(position)] = demo[temparray.get(position)]!!+1
+                demo[list.get(position)] = demo[list.get(position)]!!+1
                 db1.collection("Users").document(FirebaseAuth.getInstance().getCurrentUser()?.getUid().toString()).update("fav",demo).addOnSuccessListener {
                     holder.cardi.alpha=1F
                     dialog.hide()
@@ -268,7 +265,5 @@ class adaptor(val conti:Context, var temparray:MutableList<String>,var data:Hash
 
             })
         }
-//        holder.y.text=data[(position+1).toString()]?.get("phone")
-
     }
 }

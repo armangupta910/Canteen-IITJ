@@ -13,19 +13,21 @@ class Splash_Screen : AppCompatActivity() {
         supportActionBar?.hide()
 
         Handler().postDelayed({
+            var token1=getSharedPreferences("demo",Context.MODE_PRIVATE)
             var token=getSharedPreferences("status",Context.MODE_PRIVATE)
-            if(token.getBoolean("status",true)==true){
+            if(token1.getString("user"," ")=="0"){
+                startActivity(Intent(this,Sign_in::class.java))
+                finish()
+            }
+            else if(token1.getString("user"," ")=="1"){
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
             else{
                 startActivity(Intent(this,Sign_in::class.java))
-                val editor=token.edit()
-                editor.putBoolean("status",false)
-                editor.commit()
-                finish();
+                finish()
             }
 
-        },1800)
+        },1200)
     }
 }

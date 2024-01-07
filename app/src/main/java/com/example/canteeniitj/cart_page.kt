@@ -28,6 +28,7 @@ class cart_page : AppCompatActivity() {
         supportActionBar?.title="Cart"
         var data:HashMap<String,Map<String,String>> = hashMapOf()
         findViewById<Button>(R.id.checkout).setOnClickListener {
+            findViewById<Button>(R.id.checkout).visibility=View.GONE
             var avail:MutableList<String> = mutableListOf()
             var sending:String = ""
             Firebase.firestore.collection("avail").document("avail").get().addOnSuccessListener {

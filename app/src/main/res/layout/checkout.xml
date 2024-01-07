@@ -33,7 +33,7 @@
             android:id="@+id/item_quantity"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="0dp"
             android:text="Quantity"
             android:textAlignment="textStart"
             android:textColor="@color/black"
@@ -45,12 +45,13 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="Price"
-            android:textAlignment="textStart"
+            android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="17dp" />
     </LinearLayout>
 
     <View
+        android:id="@+id/horizontalline"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"

@@ -17,6 +17,7 @@ class adaptor_for_checkout(val conti:Context,var list:MutableList<Int>,var data:
         val y=itemView.findViewById<TextView>(R.id.item_quantity)
         val z=itemView.findViewById<TextView>(R.id.item_price)
         val row=itemView.findViewById<LinearLayout>(R.id.linearLayout)
+        val line:View=itemView.findViewById(R.id.horizontalline)
         var total=0
     }
 
@@ -52,6 +53,7 @@ class adaptor_for_checkout(val conti:Context,var list:MutableList<Int>,var data:
                     db.collection("Menu_Items").document(list.get(position).toString()).get().addOnSuccessListener {
                         if(it.data?.get("Availabilty")=="0"){
                             holder.row.visibility=View.GONE
+                            holder.line.visibility=View.GONE
                         }
                     }
 
