@@ -115,7 +115,7 @@ class adaptor(val conti:Context, var temparray:MutableList<String>,var data:Hash
                     listi.add(temparray.get(position).toInt())
                 }
                 db.collection("Users").document(FirebaseAuth.getInstance().getCurrentUser()?.getUid().toString()).update("cart",listi).addOnSuccessListener {
-                    Toast.makeText(conti,"List Updated",Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(conti,"Done",Toast.LENGTH_SHORT).show()
                 }
                 var carti: HashMap<String,Int> = it.data?.get("carts") as HashMap<String, Int>
                 if(carti[temparray.get(position)]!=null){

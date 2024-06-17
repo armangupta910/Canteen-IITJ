@@ -92,7 +92,7 @@ class adaptor_for_fav(val conti:Context,var fav_items:List<Int>, var data:HashMa
                 }
 
                 db.collection("Users").document(FirebaseAuth.getInstance().getCurrentUser()?.getUid().toString()).update("cart",listi).addOnSuccessListener {
-                    Toast.makeText(conti,"List Updated",Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(conti,"List Updated",Toast.LENGTH_SHORT).show()
                 }
                 var carti: HashMap<String,Int> = it.data?.get("carts") as HashMap<String, Int>
                 if(carti[(position+1).toString()]!=null){

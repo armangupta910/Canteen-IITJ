@@ -163,7 +163,7 @@ class adaptoforcart(val conti:Context, var data:HashMap<String,Map<String,String
                             conti.startActivity(Intent(conti,MainActivity::class.java))
                         }
                         db.collection("Users").document(FirebaseAuth.getInstance().getCurrentUser()?.getUid().toString()).update("cart",listi).addOnSuccessListener {
-                            Toast.makeText(conti,"List Updated",Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(conti,"List Updated",Toast.LENGTH_SHORT).show()
                         }
                     }
 

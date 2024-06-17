@@ -6,15 +6,17 @@
     tools:context=".fragments.first"
     android:orientation="vertical">
 
-
+2
     <androidx.appcompat.widget.SearchView
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/search_view1"
         android:outlineProvider="background"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
+
+        android:layout_marginTop="10dp"
         />
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
