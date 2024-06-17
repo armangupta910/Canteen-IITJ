@@ -8,7 +8,7 @@
 
 <h1>Canteen IITJ</h1>
 
-<p>FoodOrderingApp is an Android application developed using Kotlin and XML, designed to meet the online food ordering needs of users. The app leverages Firebase for backend services and provides features for both customers and admins to enhance the overall food ordering experience.</p>
+<p>Canteen IITJ is an Android application developed using Kotlin and XML, designed to meet the online food ordering needs of users. The app leverages Firebase for backend services and provides features for both customers and admins to enhance the overall food ordering experience.</p>
 
 <h2>Features</h2>
 
